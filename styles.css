@@ -1,4 +1,4 @@
-/* General Styles */
+/* Import Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
 * {
@@ -14,7 +14,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Background Overlay */
+/* Background Overlay (Glassmorphism Effect) */
 .background-overlay {
     position: fixed;
     top: 0;
@@ -77,8 +77,8 @@ body {
 
 /* Movie Card */
 .movie {
-    width: 150px;
-    height: 225px;
+    width: 180px;
+    height: 270px;
     border-radius: 10px;
     overflow: hidden;
     position: relative;
@@ -92,7 +92,6 @@ body {
     transform: scale(1.05);
 }
 
-/* Movie Image */
 .movie img {
     width: 100%;
     height: 100%;
@@ -100,7 +99,6 @@ body {
     transition: opacity 0.3s;
 }
 
-/* Movie Overlay */
 .movie .overlay {
     position: absolute;
     bottom: 0;
@@ -112,54 +110,6 @@ body {
     font-size: 14px;
 }
 
-/* Movie Description (Hover Effect) */
-.movie-description {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px;
-    font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    text-align: center;
-}
-
-.movie:hover .movie-description {
-    opacity: 1;
-}
-
-/* Button Container */
-.button-container {
-    position: absolute;
-    bottom: 40px;
-    width: 100%;
-    text-align: center;
-}
-
-/* Watch Now Button */
-.watch-now {
-    background: #ff4f4f;
-    border: none;
-    padding: 6px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-    color: white;
-    transition: background 0.3s ease;
-}
-
-.watch-now:hover {
-    background: #e63939;
-}
-
 /* Watch Trailer Button */
 .watch-trailer {
     background: #ffcc00;
@@ -167,6 +117,7 @@ body {
     padding: 5px 10px;
     font-size: 12px;
     cursor: pointer;
+    margin-top: 5px;
     border-radius: 5px;
 }
 
@@ -174,27 +125,57 @@ body {
     background: #ffaa00;
 }
 
-/* Trailer Preview */
-.trailer-container {
-    position: absolute;
-    top: 50%;
+.watch-trailer.disabled {
+    background: #555;
+    cursor: not-allowed;
+}
+
+/* Floating Trailer Preview */
+.mobile-trailer {
+    position: fixed;
+    bottom: 10%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 320px;
+    height: 180px;
+    background: black;
+    display: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+    z-index: 999;
+}
+
+.mobile-trailer iframe {
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    display: none;
-    justify-content: center;
-    align-items: center;
 }
 
-.trailer-container iframe {
-    width: 90%;
-    height: 60%;
+/* Trailer Header */
+.trailer-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 12px;
 }
 
-.show-trailer {
-    display: flex !important;
+.close-trailer {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+/* Loading & Error Messages */
+.loading,
+.error {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
 }
 
 /* Responsive Adjustments */
@@ -210,13 +191,18 @@ body {
     }
 
     .movie {
-        width: 130px;
+        width: 45%;
         height: auto;
     }
 }
 
 @media (max-width: 480px) {
     .movie {
-        width: 100px;
+        width: 90%;
     }
-        }
+
+    .mobile-trailer {
+        width: 95%;
+        height: 200px;
+    }
+}
