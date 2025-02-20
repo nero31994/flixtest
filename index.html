@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Streaming</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Top Menu -->
+    <header>
+        <h1>MovieStream</h1>
+        <input type="text" id="search" placeholder="Search movies..." oninput="debounceSearch()">
+    </header>
+
+    <!-- Movie Grid -->
+    <div id="movies"></div>
+    <div id="loading">Loading...</div>
+    <div id="error"></div>
+
+    <!-- Movie Info Popup -->
+    <div id="movieModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle"></h2>
+            <p id="modalOverview"></p>
+            <p id="modalRelease"></p>
+            <p id="modalRating"></p>
+            <button id="watchNow">Watch Now</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
