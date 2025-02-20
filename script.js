@@ -78,6 +78,19 @@ function closeModal() {
     document.getElementById("movieModal").style.display = "none";
 }
 
+// Search function with debounce
+function debounceSearch() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        const query = document.getElementById("search").value.trim();
+        if (query.length > 2) {
+            currentQuery = query;  // Update global query
+            currentPage = 1;  // Reset pagination
+            fetchMovies(currentQuery, currentPage);
+        }
+    }, 300);
+}
+
 // Infinite Scroll
 window.addEventListener('scroll', () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
@@ -87,4 +100,4 @@ window.addEventListener('scroll', () => {
 });
 
 // Load initial movies
-fetchMovies(); 
+fetchMovies();
