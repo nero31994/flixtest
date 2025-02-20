@@ -1,119 +1,137 @@
-/* Background GIF */
+/* General Styles */
 body {
-    background: url('https://i.ibb.co/X3Qv7dn/giphy.gif') no-repeat center center fixed;
-    background-size: cover;
     font-family: Arial, sans-serif;
+    background: #121212;
     color: white;
+    text-align: center;
     margin: 0;
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    overflow-x: hidden;
 }
 
-/* Top Menu */
-header {
+/* Background Overlay */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("https://i.ibb.co/X3Qv7dn/giphy.gif") center/cover no-repeat;
+    filter: blur(8px);
+    z-index: -1;
+}
+
+/* Sticky Header */
+.top-menu {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
-    padding: 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px;
     z-index: 1000;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 22px;
+/* Logo */
+.logo {
+    height: 40px;
 }
 
-header input {
+/* Search Bar */
+.search-container {
+    flex-grow: 1;
+    text-align: center;
+}
+
+#search {
+    width: 90%;
+    max-width: 400px;
     padding: 10px;
-    width: 200px;
+    font-size: 16px;
+    border-radius: 20px;
     border: none;
-    border-radius: 5px;
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
 /* Movie Grid */
-#movies {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 80px;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
     gap: 15px;
+    padding: 80px 20px 20px;
+    max-width: 1200px;
+    margin: auto;
 }
 
+/* Movie Item */
 .movie {
     position: relative;
-    width: 150px;
-    transition: transform 0.3s;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.movie:hover {
+    transform: scale(1.08);
 }
 
 .movie img {
     width: 100%;
-    border-radius: 10px;
-    transition: opacity 0.3s;
+    border-radius: 8px;
+    object-fit: cover;
 }
 
-.movie:hover {
-    transform: scale(1.1);
-}
-
-.overlay {
+/* Movie Overlay */
+.movie .overlay {
     position: absolute;
     bottom: 0;
-    width: 100%;
+    left: 0;
+    right: 0;
     background: rgba(0, 0, 0, 0.7);
-    text-align: center;
-    padding: 5px;
+    color: white;
+    padding: 8px;
     font-size: 14px;
     opacity: 0;
-    transition: opacity 0.3s;
+    transition: opacity 0.3s ease-in-out;
 }
 
 .movie:hover .overlay {
     opacity: 1;
 }
 
-/* Loading & Error Messages */
-#loading {
-    display: none;
-    margin-top: 20px;
+/* Loading & Error */
+.loading, .error {
     font-size: 18px;
-}
-
-#error {
-    color: red;
     margin-top: 20px;
+    color: #ff5757;
 }
 
 /* Movie Info Modal */
 .modal {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 2000;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
     max-width: 500px;
     background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 10px;
+    backdrop-filter: blur(20px);
     padding: 20px;
-    text-align: center;
+    border-radius: 10px;
     color: white;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
 .modal-content {
-    padding: 20px;
+    text-align: center;
 }
 
-.modal .close {
+.close {
     position: absolute;
     top: 10px;
     right: 15px;
@@ -121,16 +139,39 @@ header input {
     cursor: pointer;
 }
 
-.modal button {
-    background: #ff4a4a;
+#watchNow {
+    background: #ff5757;
     color: white;
     border: none;
-    padding: 10px 15px;
-    cursor: pointer;
+    padding: 10px 20px;
+    margin-top: 10px;
     border-radius: 5px;
-    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-.modal button:hover {
-    background: #ff1f1f;
-} 
+#watchNow:hover {
+    background: #ff0000;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+    .top-menu {
+        flex-direction: column;
+        padding: 10px;
+    }
+
+    .search-container {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    #search {
+        width: 100%;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        padding-top: 100px;
+    }
+}
