@@ -1,103 +1,94 @@
-const API_KEY = '488eb36776275b8ae18600751059fb49';
+const API_KEY = '488eb36776275b8ae18600751059fb49'; // Replace with your TMDB API key
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-const PROXY_URL = 'https://officialflix.vercel.app/api/proxy?id=';
-
-let currentPage = 1;
-let currentQuery = '';
-let isFetching = false;
+const PROXY_URL = '/api/proxy?id='; // Proxy route on Vercel
 let timeout = null;
+let page = 1; // For infinite scrolling
 
-// Fetch movies or TV shows
-async function fetchMovies(query = '', page = 1) {
-    if (isFetching) return;
-    isFetching = true;
+async function fetchMovies(url) {
     document.getElementById("loading").style.display = "block";
-
-    let url = query
-        ? `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${query}&page=${page}`
-        : `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`;
-
+    
     try {
         const res = await fetch(url);
         const data = await res.json();
         document.getElementById("loading").style.display = "none";
 
         if (!data.results || data.results.length === 0) {
-            document.getElementById("error").innerText = "No results found!";
+            document.getElementById("error").innerText = "No movies found!";
             return;
         }
 
         document.getElementById("error").innerText = "";
-        displayMovies(data.results, page === 1);
+        
+        // **Sort movies by release date (newest first)**
+        const sortedMovies = data.results.sort((a, b) => 
+            new Date(b.release_date || b.first_air_date) - new Date(a.release_date || a.first_air_date)
+        );
+
+        displayMovies(sortedMovies);
     } catch (err) {
-        document.getElementById("error").innerText = "Error fetching data!";
+        document.getElementById("error").innerText = "Error fetching movies!";
         document.getElementById("loading").style.display = "none";
-    } finally {
-        isFetching = false;
     }
 }
 
-// Display movies
-function displayMovies(movies, clear = false) {
+function displayMovies(movies) {
     const moviesDiv = document.getElementById("movies");
 
-    if (clear) moviesDiv.innerHTML = ""; // Clear previous results when searching
-
     movies.forEach(movie => {
-        if (!movie.poster_path) return;
+        if (!movie.poster_path) return; // Skip movies without posters
 
         const movieEl = document.createElement("div");
         movieEl.classList.add("movie");
         movieEl.innerHTML = `
             <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title || movie.name}" loading="lazy">
-            <div class="overlay">${movie.title || movie.name}</div>
+            <div class="overlay">${movie.title || movie.name} (${movie.release_date ? movie.release_date.split('-')[0] : 'N/A'})</div>
         `;
+
+        // Show movie info before redirecting
         movieEl.onclick = () => showMovieInfo(movie);
+        
         moviesDiv.appendChild(movieEl);
     });
 }
 
-// Show movie info popup
+// Show Movie Info before Redirecting
 function showMovieInfo(movie) {
-    const modal = document.getElementById("movieModal");
-    document.getElementById("modalTitle").innerText = movie.title || movie.name;
-    document.getElementById("modalOverview").innerText = movie.overview || "No description available.";
-    document.getElementById("modalRelease").innerText = `Release Date: ${movie.release_date || "N/A"}`;
-    document.getElementById("modalRating").innerText = `Rating: ${movie.vote_average}/10`;
-
-    document.getElementById("watchNow").onclick = () => {
-        window.open(`${PROXY_URL}${movie.id}`, "_blank");
-        modal.style.display = "none";
-    };
-
-    modal.style.display = "block";
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
+    modal.innerHTML = `
+        <div class="modal-content">
+            <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
+            <h2>${movie.title || movie.name}</h2>
+            <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title || movie.name}" width="100%">
+            <p><strong>Release Date:</strong> ${movie.release_date || 'Unknown'}</p>
+            <p>${movie.overview || 'No description available.'}</p>
+            <button id="watchNow" onclick="window.open('${PROXY_URL}${movie.id}', '_blank')">Watch Now</button>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
 }
 
-// Close movie info popup
-function closeModal() {
-    document.getElementById("movieModal").style.display = "none";
-}
+// Infinite Scroll for More Movies
+window.addEventListener("scroll", () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
+        page++;
+        fetchMovies(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`);
+    }
+});
 
-// Search function with debounce
+// Debounced Search
 function debounceSearch() {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
-        const query = document.getElementById("search").value.trim();
+        const query = document.getElementById("search").value;
         if (query.length > 2) {
-            currentQuery = query;  // Update global query
-            currentPage = 1;  // Reset pagination
-            fetchMovies(currentQuery, currentPage);
+            fetchMovies(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${query}`);
+        } else {
+            fetchMovies(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`);
         }
     }, 300);
 }
 
-// Infinite Scroll
-window.addEventListener('scroll', () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-        currentPage++;
-        fetchMovies(currentQuery, currentPage);
-    }
-});
-
-// Load initial movies
-fetchMovies();
+// Load popular movies on page load (sorted from latest to old)
+fetchMovies(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`);
