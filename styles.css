@@ -13,7 +13,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Background Overlay for Glassmorphism */
+/* Background Overlay */
 .background-overlay {
     position: fixed;
     top: 0;
@@ -25,7 +25,7 @@ body {
     z-index: -1;
 }
 
-/* 🔥 Sticky Header (Logo + Search Bar) */
+/* 🔥 Sticky Header */
 .top-menu {
     position: fixed;
     top: 0;
@@ -102,7 +102,7 @@ body {
     box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
 }
 
-/* Movie Overlay (Title on Hover) */
+/* Movie Overlay */
 .movie .overlay {
     position: absolute;
     bottom: 0;
@@ -115,20 +115,19 @@ body {
     font-weight: bold;
 }
 
-/* 🔄 Loading Text */
-.loading {
+/* 🔄 Loading & Error */
+.loading, .error {
     text-align: center;
-    color: white;
     font-size: 18px;
     margin-top: 20px;
 }
 
-/* ⚠️ Error Message */
+.loading {
+    color: white;
+}
+
 .error {
-    text-align: center;
     color: red;
-    font-size: 18px;
-    margin-top: 20px;
 }
 
 /* 🎬 Movie Info Modal */
@@ -139,7 +138,8 @@ body {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
-    max-width: 450px;
+    max-width: 500px;
+    max-height: 85vh; /* Prevents modal from being too large */
     background: rgba(0, 0, 0, 0.9);
     color: white;
     padding: 20px;
@@ -147,26 +147,37 @@ body {
     box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
     z-index: 2000;
     text-align: center;
+    overflow-y: auto; /* Allows scrolling inside the modal if needed */
 }
 
-/* Ensure modal does not scroll with content */
-.modal-fixed {
-    position: fixed;
-}
-
-/* Ensure content stays within modal */
+/* Flexbox Layout for Poster + Info */
 .modal-content {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 15px;
+    text-align: left;
 }
 
-/* Adjusted Poster Size */
+/* Adjusted Mini Poster (Left Side) */
 .modal img {
-    width: 100%;  
-    max-width: 300px; 
-    height: auto; 
+    width: 100px; /* Mini size */
+    height: auto;
     border-radius: 8px;
+}
+
+/* Movie Info (Right Side) */
+.modal-info {
+    flex: 1;
+}
+
+.modal-info h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.modal-info p {
+    font-size: 14px;
+    color: #ccc;
     margin-bottom: 10px;
 }
 
@@ -220,17 +231,34 @@ body {
     #search {
         font-size: 14px;
     }
+
+    /* Adjust modal for small screens */
+    .modal {
+        width: 90%;
+        max-width: 400px;
+    }
+
+    .modal-content {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .modal img {
+        width: 120px;
+        margin-bottom: 10px;
+    }
 }
 
 /* 🔄 Adjust Modal for Landscape Mode */
 @media (orientation: landscape) {
     .modal {
         width: 70%;
-        max-width: 400px;
+        max-width: 500px;
+        max-height: 80vh;
     }
 
     .modal img {
-        max-width: 250px;
+        width: 80px;
     }
 }
 
@@ -240,12 +268,17 @@ body {
     }
 
     .modal {
-        width: 90%;
+        width: 85%;
         max-width: 350px;
+        max-height: 85vh;
+    }
+
+    .modal-content {
+        flex-direction: column;
+        text-align: center;
     }
 
     .modal img {
-        width: 100%;
-        max-width: 250px;
+        width: 120px;
     }
-}
+    }
