@@ -89,7 +89,7 @@ body {
     width: 100%;
 }
 
-/* Adjust movie card size to 50% */
+/* Adjust movie card size */
 .movie img {
     width: 100%;
     height: auto;
@@ -138,15 +138,20 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%;
-    max-width: 500px;
+    width: 90%;
+    max-width: 450px;
     background: rgba(0, 0, 0, 0.9);
     color: white;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
-    z-index: 1000;
+    z-index: 2000;
     text-align: center;
+}
+
+/* Ensure modal does not scroll with content */
+.modal-fixed {
+    position: fixed;
 }
 
 /* Ensure content stays within modal */
@@ -158,9 +163,9 @@ body {
 
 /* Adjusted Poster Size */
 .modal img {
-    width: 80%;  /* Ensures image fits proportionally */
-    max-width: 300px;  /* Limits max width for better appearance */
-    height: auto;  /* Maintains aspect ratio */
+    width: 100%;  
+    max-width: 300px; 
+    height: auto; 
     border-radius: 8px;
     margin-bottom: 10px;
 }
@@ -217,6 +222,18 @@ body {
     }
 }
 
+/* 🔄 Adjust Modal for Landscape Mode */
+@media (orientation: landscape) {
+    .modal {
+        width: 70%;
+        max-width: 400px;
+    }
+
+    .modal img {
+        max-width: 250px;
+    }
+}
+
 @media (max-width: 480px) {
     .grid {
         grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -224,10 +241,11 @@ body {
 
     .modal {
         width: 90%;
+        max-width: 350px;
     }
 
     .modal img {
-        width: 100%;  /* Makes poster fully responsive */
+        width: 100%;
         max-width: 250px;
     }
 }
