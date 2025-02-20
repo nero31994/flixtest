@@ -1,16 +1,11 @@
 /* General Styles */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
-* {
+body {
+    font-family: Arial, sans-serif;
+    background: #121212;
+    color: white;
+    text-align: center;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-
-body {
-    background: #000;
-    color: white;
     overflow-x: hidden;
 }
 
@@ -21,202 +16,162 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: url('https://i.ibb.co/X3Qv7dn/giphy.gif') center/cover no-repeat;
-    filter: blur(10px);
-    opacity: 0.4;
+    background: url("https://i.ibb.co/X3Qv7dn/giphy.gif") center/cover no-repeat;
+    filter: blur(8px);
     z-index: -1;
 }
 
-/* Sticky Top Menu */
+/* Sticky Header */
 .top-menu {
     position: fixed;
     top: 0;
     width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 10px 20px;
-    z-index: 100;
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    z-index: 1000;
 }
 
+/* Logo */
 .logo {
     height: 40px;
 }
 
+/* Search Bar */
 .search-container {
     flex-grow: 1;
-    margin-left: 10px;
-    display: flex;
+    text-align: center;
 }
 
 #search {
-    width: 100%;
-    max-width: 300px;
-    padding: 8px;
-    border: none;
+    width: 90%;
+    max-width: 400px;
+    padding: 10px;
+    font-size: 16px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
+    border: none;
     outline: none;
-}
-
-#search::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
 /* Movie Grid */
 .grid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjusted to 50% size */
+    gap: 10px;
     padding: 80px 20px 20px;
-    gap: 15px;
+    max-width: 900px; /* Reduced max width */
+    margin: auto;
 }
 
-/* Movie Card */
+/* Movie Item */
 .movie {
-    width: 150px;
-    height: 225px;
-    border-radius: 10px;
-    overflow: hidden;
     position: relative;
     cursor: pointer;
-    transition: transform 0.3s ease;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
+    transition: transform 0.3s ease-in-out;
 }
 
 .movie:hover {
     transform: scale(1.05);
 }
 
-/* Movie Image */
 .movie img {
     width: 100%;
-    height: 100%;
+    border-radius: 8px;
     object-fit: cover;
-    transition: opacity 0.3s;
 }
 
 /* Movie Overlay */
 .movie .overlay {
     position: absolute;
     bottom: 0;
-    width: 100%;
-    text-align: center;
-    padding: 8px;
+    left: 0;
+    right: 0;
     background: rgba(0, 0, 0, 0.7);
     color: white;
-    font-size: 14px;
-}
-
-/* Movie Description (Hover Effect) */
-.movie-description {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 10px;
+    padding: 6px;
     font-size: 12px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
     opacity: 0;
-    transition: opacity 0.3s ease;
-    text-align: center;
+    transition: opacity 0.3s ease-in-out;
 }
 
-.movie:hover .movie-description {
+.movie:hover .overlay {
     opacity: 1;
 }
 
-/* Button Container */
-.button-container {
-    position: absolute;
-    bottom: 40px;
-    width: 100%;
+/* Loading & Error */
+.loading, .error {
+    font-size: 18px;
+    margin-top: 20px;
+    color: #ff5757;
+}
+
+/* Movie Info Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.modal-content {
     text-align: center;
 }
 
-/* Watch Now Button */
-.watch-now {
-    background: #ff4f4f;
-    border: none;
-    padding: 6px 12px;
-    font-size: 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bold;
-    color: white;
-    transition: background 0.3s ease;
-}
-
-.watch-now:hover {
-    background: #e63939;
-}
-
-/* Watch Trailer Button */
-.watch-trailer {
-    background: #ffcc00;
-    border: none;
-    padding: 5px 10px;
-    font-size: 12px;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-.watch-trailer:hover {
-    background: #ffaa00;
-}
-
-/* Trailer Preview */
-.trailer-container {
+.close {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.9);
-    display: none;
-    justify-content: center;
-    align-items: center;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
 }
 
-.trailer-container iframe {
-    width: 90%;
-    height: 60%;
+#watchNow {
+    background: #ff5757;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
 }
 
-.show-trailer {
-    display: flex !important;
+#watchNow:hover {
+    background: #ff0000;
 }
 
-/* Responsive Adjustments */
-@media (max-width: 768px) {
+/* Responsive Design */
+@media (max-width: 600px) {
     .top-menu {
         flex-direction: column;
-        align-items: center;
         padding: 10px;
     }
 
     .search-container {
-        margin-top: 8px;
+        width: 100%;
+        margin-top: 10px;
     }
 
-    .movie {
-        width: 130px;
-        height: auto;
+    #search {
+        width: 100%;
+    }
+
+    .grid {
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Even smaller for mobile */
+        padding-top: 100px;
     }
 }
-
-@media (max-width: 480px) {
-    .movie {
-        width: 100px;
-    }
-    }
