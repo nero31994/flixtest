@@ -1,42 +1,35 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
+/* Background */
 body {
+    font-family: Arial, sans-serif;
     background: url('https://i.ibb.co/X3Qv7dn/giphy.gif') no-repeat center center fixed;
     background-size: cover;
-    backdrop-filter: blur(10px);
-    overflow-x: hidden;
+    margin: 0;
+    color: white;
 }
 
-/* Background Overlay for Glassmorphism */
+/* Overlay effect */
 .background-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.7);
     z-index: -1;
 }
 
-/* 🔥 Sticky Header (Logo + Search Bar) */
+/* Top menu */
 .top-menu {
     position: fixed;
     top: 0;
     width: 100%;
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding: 15px 20px;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(15px);
-    z-index: 1000;
+    align-items: center;
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    z-index: 100;
 }
 
 /* Logo */
@@ -44,178 +37,70 @@ body {
     height: 40px;
 }
 
-/* Search Bar */
+/* Search bar */
 .search-container {
     flex: 1;
-    max-width: 300px;
-    margin-left: 20px;
+    text-align: right;
 }
 
 #search {
-    width: 100%;
-    padding: 10px;
+    padding: 8px;
     border: none;
     border-radius: 20px;
     outline: none;
-    font-size: 16px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    transition: all 0.3s ease;
 }
 
-#search::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-#search:focus {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* 📌 Movies Grid */
+/* Movie grid */
 .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px;
-    padding: 100px 20px 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 80px 10px 20px;
 }
 
-/* 🎥 Movie Cards */
 .movie {
+    width: 180px;
+    margin: 10px;
     position: relative;
-    border-radius: 12px;
-    overflow: hidden;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    width: 100%;
-}
-
-/* Adjust movie card size to 50% */
-.movie img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
-    transition: opacity 0.3s ease;
+    transition: transform 0.3s;
 }
 
 .movie:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
+    transform: scale(1.1);
 }
 
-/* Movie Overlay (Title on Hover) */
-.movie .overlay {
+/* Movie overlay */
+.overlay {
     position: absolute;
     bottom: 0;
-    width: 100%;
     background: rgba(0, 0, 0, 0.6);
-    color: white;
+    width: 100%;
     text-align: center;
-    padding: 8px;
-    font-size: 14px;
-    font-weight: bold;
+    padding: 5px;
 }
 
-/* 🔄 Loading Text */
-.loading {
-    text-align: center;
-    color: white;
-    font-size: 18px;
-    margin-top: 20px;
-}
-
-/* ⚠️ Error Message */
-.error {
-    text-align: center;
-    color: red;
-    font-size: 18px;
-    margin-top: 20px;
-}
-
-/* Movie Info Modal */
+/* Movie info modal */
 .modal {
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%;
-    max-width: 500px;
     background: rgba(0, 0, 0, 0.9);
     color: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.1);
     z-index: 1000;
-}
-
-.modal-content {
     text-align: center;
 }
 
 .modal img {
+    width: 100%;
     border-radius: 8px;
 }
 
 .modal .close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
     font-size: 25px;
     cursor: pointer;
 }
-
-#watchNow {
-    background-color: red;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 10px;
-    border-radius: 5px;
-}
-
-#watchNow:hover {
-    background-color: darkred;
-}
-
-/* 🔁 Responsive Design */
-@media (max-width: 768px) {
-    .grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    }
-
-    .top-menu {
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    .search-container {
-        margin-left: 0;
-        width: 100%;
-        max-width: none;
-    }
-
-    .logo {
-        height: 30px;
-        margin-bottom: 10px;
-    }
-
-    #search {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 480px) {
-    .grid {
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    }
-
-    .modal {
-        width: 90%;
-    }
-
-    .modal-content h2 {
-        font-size: 18px;
-    }
-        }
