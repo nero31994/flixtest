@@ -13,7 +13,7 @@ body {
     overflow-x: hidden;
 }
 
-/* Disable scrolling when modal is open */
+/* ❌ Disable body scrolling when modal is open */
 body.modal-open {
     overflow: hidden;
 }
@@ -44,38 +44,6 @@ body.modal-open {
     z-index: 1000;
 }
 
-/* Logo */
-.logo {
-    height: 40px;
-}
-
-/* Search Bar */
-.search-container {
-    flex: 1;
-    max-width: 300px;
-    margin-left: 20px;
-}
-
-#search {
-    width: 100%;
-    padding: 10px;
-    border: none;
-    border-radius: 20px;
-    outline: none;
-    font-size: 16px;
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    transition: all 0.3s ease;
-}
-
-#search::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-#search:focus {
-    background: rgba(255, 255, 255, 0.3);
-}
-
 /* 📌 Movies Grid */
 .grid {
     display: grid;
@@ -94,48 +62,13 @@ body.modal-open {
     width: 100%;
 }
 
-/* Adjust movie card size */
 .movie img {
     width: 100%;
     height: auto;
     border-radius: 12px;
-    transition: opacity 0.3s ease;
 }
 
-.movie:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
-}
-
-/* Movie Overlay */
-.movie .overlay {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    text-align: center;
-    padding: 8px;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-/* 🔄 Loading & Error */
-.loading, .error {
-    text-align: center;
-    font-size: 18px;
-    margin-top: 20px;
-}
-
-.loading {
-    color: white;
-}
-
-.error {
-    color: red;
-}
-
-/* 🎬 Full-Screen Movie Info Modal (Fixed) */
+/* 🎬 Full-Screen Movie Info Modal */
 .modal {
     display: none;
     position: fixed;
@@ -146,39 +79,43 @@ body.modal-open {
     background: rgba(0, 0, 0, 0.95);
     color: white;
     z-index: 2000;
-    overflow-y: auto;
+    overflow-y: auto;  /* Allow scrolling inside modal */
     padding: 40px 20px;
 }
 
-/* Prevent modal from joining scrolling */
+/* Prevent body from scrolling when modal is open */
+.modal.show {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 📌 Fixed Modal Content */
 .modal-content {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     max-width: 900px;
-    margin: auto;
-}
-
-/* Flexbox Layout for Poster + Info */
-.modal-inner {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
+    width: 90%;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
     gap: 20px;
-    text-align: left;
 }
 
-/* Adjusted Poster (Left Side) */
+/* Movie Poster (Left Side) */
 .modal img {
     width: 250px;
-    height: auto;
     border-radius: 8px;
+    flex-shrink: 0;
 }
 
 /* Movie Info (Right Side) */
 .modal-info {
     flex: 1;
+    overflow-y: auto;
+    max-height: 80vh;
 }
 
 .modal-info h2 {
@@ -193,7 +130,7 @@ body.modal-open {
     line-height: 1.5;
 }
 
-/* Close Button */
+/* ❌ Close Button */
 .modal .close {
     position: absolute;
     top: 15px;
@@ -202,7 +139,7 @@ body.modal-open {
     cursor: pointer;
 }
 
-/* Watch Now Button */
+/* 🎬 Watch Now Button */
 #watchNow {
     background-color: red;
     color: white;
@@ -218,11 +155,12 @@ body.modal-open {
     background-color: darkred;
 }
 
-/* 🔁 Responsive Design */
+/* 🔄 Responsive Design */
 @media (max-width: 768px) {
-    .modal-inner {
+    .modal-content {
         flex-direction: column;
         text-align: center;
+        padding: 20px;
     }
 
     .modal img {
@@ -245,7 +183,7 @@ body.modal-open {
 
 /* 🔄 Adjust Modal for Landscape Mode */
 @media (orientation: landscape) {
-    .modal-inner {
+    .modal-content {
         flex-direction: row;
         align-items: flex-start;
     }
