@@ -53,20 +53,38 @@ function displayMovies(movies) {
 
 // Show Movie Info before Redirecting
 function showMovieInfo(movie) {
-    const modal = document.createElement("div");
-    modal.classList.add("modal");
-    modal.innerHTML = `
-        <div class="modal-content">
-            <span class="close" onclick="this.parentElement.parentElement.remove()">&times;</span>
-            <h2>${movie.title || movie.name}</h2>
-            <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title || movie.name}" width="100%">
-            <p><strong>Release Date:</strong> ${movie.release_date || 'Unknown'}</p>
-            <p>${movie.overview || 'No description available.'}</p>
-            <button id="watchNow" onclick="window.open('${PROXY_URL}${movie.id}', '_blank')">Watch Now</button>
-        </div>
-    `;
+    let modal = document.getElementById("movieModal");
     
-    document.body.appendChild(modal);
+    if (!modal) {
+        modal = document.createElement("div");
+        modal.id = "movieModal";
+        modal.classList.add("modal");
+        modal.innerHTML = `
+            <div class="modal-content">
+                <span class="close" onclick="document.getElementById('movieModal').remove()">&times;</span>
+                <h2 id="modalTitle"></h2>
+                <img id="modalImage" src="" alt="" width="100%">
+                <p><strong>Release Date:</strong> <span id="modalReleaseDate"></span></p>
+                <p id="modalDescription"></p>
+                <button id="watchNow">Watch Now</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    // Fill the modal with movie details
+    document.getElementById("modalTitle").innerText = movie.title || movie.name;
+    document.getElementById("modalImage").src = `${IMG_URL}${movie.poster_path}`;
+    document.getElementById("modalReleaseDate").innerText = movie.release_date || 'Unknown';
+    document.getElementById("modalDescription").innerText = movie.overview || 'No description available.';
+    
+    document.getElementById("watchNow").onclick = () => {
+        window.open(`${PROXY_URL}${movie.id}`, "_blank");
+        modal.remove();
+    };
+
+    // Show modal
+    modal.style.display = "block";
 }
 
 // Infinite Scroll for More Movies
