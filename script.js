@@ -37,11 +37,18 @@ async function fetchMovies(query = '', page = 1) {
     }
 }
 
-// Display movies
+// Display movies sorted by newest first
 function displayMovies(movies, clear = false) {
     const moviesDiv = document.getElementById("movies");
 
     if (clear) moviesDiv.innerHTML = ""; // Clear previous results when searching
+
+    // 🔥 Sort movies by release date (newest first)
+    movies.sort((a, b) => {
+        const dateA = new Date(a.release_date || a.first_air_date || "1900-01-01");
+        const dateB = new Date(b.release_date || b.first_air_date || "1900-01-01");
+        return dateB - dateA; // Sort descending (new to old)
+    });
 
     movies.forEach(movie => {
         if (!movie.poster_path) return;
