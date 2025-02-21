@@ -1,14 +1,14 @@
 /* General Styles */ body { font-family: Arial, sans-serif; background: #121212; color: white; text-align: center; margin: 0; padding: 0; overflow-x: hidden; }
 
-/* Intro Screen */ .intro-screen { position: fixed; width: 100vw; height: 100vh; background: black; display: flex; align-items: center; justify-content: center; z-index: 2000; }
+/* Intro Screen */ .intro-screen { position: fixed; width: 100%; height: 100vh; background: black; display: flex; align-items: center; justify-content: center; z-index: 2000; }
 
-.intro-screen img { max-width: 90%; max-height: 90vh; object-fit: contain; }
+.intro-screen img { max-width: 400px; }
 
 .hidden { animation: fadeOut 1s ease forwards; }
 
 @keyframes fadeOut { from { opacity: 1; visibility: visible; } to { opacity: 0; visibility: hidden; } }
 
-/* Background Overlay */ .background-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: url("https://i.ibb.co/X3Qv7dn/giphy.gif") center/cover no-repeat; filter: blur(8px); z-index: -1; }
+/* Background Overlay */ .background-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: url("https://i.ibb.co/X3Qv7dn/giphy.gif") center/cover no-repeat; filter: blur(8px); z-index: -1; }
 
 /* Sticky Header */ .top-menu { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; z-index: 1000; }
 
@@ -59,8 +59,4 @@
 }
 
 }
-
-@media (orientation: landscape) { .intro-screen img { max-height: 80vh; max-width: 60vw; } }
-
-@media (orientation: portrait) { .intro-screen img { max-height: 70vh; max-width: 80vw; } }
 
