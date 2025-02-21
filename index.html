@@ -27,7 +27,7 @@
     <div id="movies" class="grid"></div>
     <p id="error" class="error"></p>
 
-    <!-- ✅ Movie Info Modal -->
+    <!-- ✅ Movie Info Modal with Episodes -->
     <div id="movieModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal()">&times;</span>
@@ -35,13 +35,14 @@
             <p id="modalOverview"></p>
             <p id="modalRelease"></p>
             <p id="modalRating"></p>
-            <button id="watchNow">CLICK TO WATCH</button>
 
-            <!-- ✅ Episode List Inside Modal -->
-            <div id="episode-section" class="episode-section">
+            <!-- ✅ Episode List (Only for TV Shows) -->
+            <div id="episodeListContainer" class="episode-list-container hidden">
                 <h3>Episodes</h3>
-                <ul id="episode-list"></ul>
+                <div id="episodeList" class="episode-list"></div>
             </div>
+
+            <button id="watchNow">CLICK TO WATCH</button>
         </div>
     </div>
 
