@@ -9,7 +9,7 @@ body {
     overflow-x: hidden;
 }
 
-/* ✅ Full-Screen Intro Screen */
+/* Intro Screen */
 .intro-screen {
     position: fixed;
     top: 0;
@@ -30,11 +30,12 @@ body {
     object-fit: cover;
 }
 
+/* Hide elements */
 .hidden {
     display: none !important;
 }
 
-/* ✅ Background Overlay */
+/* Background Overlay */
 .background-overlay {
     position: fixed;
     top: 0;
@@ -46,7 +47,7 @@ body {
     z-index: -1;
 }
 
-/* ✅ Sticky Header */
+/* Sticky Header */
 .top-menu {
     position: fixed;
     top: 0;
@@ -60,12 +61,12 @@ body {
     z-index: 1000;
 }
 
-/* ✅ Logo */
+/* Logo */
 .logo {
     height: 40px;
 }
 
-/* ✅ Search Bar */
+/* Search Bar */
 .search-container {
     flex-grow: 1;
     text-align: center;
@@ -82,7 +83,7 @@ body {
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ Movie Grid */
+/* Movie Grid */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
@@ -92,7 +93,7 @@ body {
     margin: auto;
 }
 
-/* ✅ Movie Item */
+/* Movie Item */
 .movie {
     position: relative;
     cursor: pointer;
@@ -109,7 +110,7 @@ body {
     object-fit: cover;
 }
 
-/* ✅ Movie Overlay */
+/* Movie Overlay */
 .movie .overlay {
     position: absolute;
     bottom: 0;
@@ -127,52 +128,43 @@ body {
     opacity: 1;
 }
 
-/* ✅ Loading & Error Messages */
+/* Loading & Error */
 .loading, .error {
     font-size: 18px;
     margin-top: 20px;
     color: #ff5757;
 }
 
-/* ✅ Movie Modal */
+/* Movie Modal */
 .modal {
     display: none;
     position: fixed;
     z-index: 2000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    backdrop-filter: blur(5px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.modal-content {
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(20px);
     padding: 20px;
     border-radius: 10px;
-    text-align: center;
-    max-width: 500px;
-    position: relative;
     color: white;
     box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
 }
 
-/* ✅ Close Button */
+.modal-content {
+    text-align: center;
+}
+
 .close {
     position: absolute;
     top: 10px;
     right: 15px;
     font-size: 24px;
     cursor: pointer;
-    color: white;
 }
 
-/* ✅ Watch Now Button */
 #watchNow {
     background: #ff5757;
     color: white;
@@ -188,7 +180,7 @@ body {
     background: #ff0000;
 }
 
-/* ✅ Bottom Navigation Bar */
+/* Bottom Navigation Bar */
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -211,7 +203,7 @@ body {
     color: #ff5757;
 }
 
-/* ✅ Responsive Design */
+/* Responsive Design */
 @media (max-width: 600px) {
     .top-menu {
         flex-direction: column;
