@@ -32,7 +32,7 @@
 
 /* ✅ Loading & Error */ .loading, .error { font-size: 18px; margin-top: 20px; color: #ff5757; }
 
-/* ✅ Modal */ .modal { display: none; position: fixed; z-index: 2000; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); padding: 20px; border-radius: 10px; color: white; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); text-align: center; }
+/* ✅ Modal */ .modal { display: none; position: fixed; z-index: 2000; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); padding: 20px; border-radius: 10px; color: white; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); }
 
 .modal-content { text-align: center; }
 
@@ -48,7 +48,9 @@
 
 .bottom-nav a:hover { color: #ff5757; }
 
-/* ✅ Active Tab */ .bottom-nav a.active { color: #ff5757; font-weight: bold; }
+/* ✅ Anime & TV Shows Sections */ .anime-grid, .tvshow-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; padding: 20px; max-width: 900px; margin: auto; }
+
+.anime .movie, .tvshow .movie { border: 2px solid #ff5757; }
 
 /* ✅ Responsive Design */ @media (max-width: 600px) { .top-menu { flex-direction: column; padding: 10px; }
 
@@ -61,7 +63,7 @@
     width: 100%;
 }
 
-.grid {
+.grid, .anime-grid, .tvshow-grid {
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     padding-top: 100px;
 }
