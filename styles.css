@@ -9,6 +9,37 @@ body {
     overflow-x: hidden;
 }
 
+/* Intro Screen */
+.intro-screen {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+
+.intro-screen img {
+    max-width: 300px;
+}
+
+.hidden {
+    animation: fadeOut 1s ease forwards;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        visibility: visible;
+    }
+    to {
+        opacity: 0;
+        visibility: hidden;
+    }
+}
+
 /* Background Overlay */
 .background-overlay {
     position: fixed;
@@ -60,10 +91,10 @@ body {
 /* Movie Grid */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Adjusted to 50% size */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
     padding: 80px 20px 20px;
-    max-width: 900px; /* Reduced max width */
+    max-width: 900px;
     margin: auto;
 }
 
@@ -109,7 +140,7 @@ body {
     color: #ff5757;
 }
 
-/* Movie Info Modal */
+/* Modal */
 .modal {
     display: none;
     position: fixed;
@@ -171,7 +202,7 @@ body {
     }
 
     .grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Even smaller for mobile */
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
         padding-top: 100px;
     }
 }
