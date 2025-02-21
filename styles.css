@@ -1,4 +1,4 @@
-/* General Styles */
+/* ✅ General Styles */
 body {
     font-family: Arial, sans-serif;
     background: #121212;
@@ -12,18 +12,20 @@ body {
 /* ✅ Full-Screen Intro Screen */
 .intro-screen {
     position: fixed;
-    width: 100%;
-    height: 100vh; /* Full viewport height */
+    width: 100vw;
+    height: 100vh;
     background: black;
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 2000;
+    top: 0;
+    left: 0;
 }
 
 .intro-screen img {
-    width: 100vw;  /* Full width */
-    height: 100vh; /* Full height */
+    width: 100vw;  /* Fill the full width */
+    height: 100vh; /* Fill the full height */
     object-fit: cover; /* Ensure full coverage */
 }
 
@@ -43,7 +45,7 @@ body {
     }
 }
 
-/* Background Overlay */
+/* ✅ Background Overlay */
 .background-overlay {
     position: fixed;
     top: 0;
@@ -55,7 +57,7 @@ body {
     z-index: -1;
 }
 
-/* Sticky Header */
+/* ✅ Sticky Header */
 .top-menu {
     position: fixed;
     top: 0;
@@ -69,12 +71,12 @@ body {
     z-index: 1000;
 }
 
-/* Logo */
+/* ✅ Logo */
 .logo {
     height: 40px;
 }
 
-/* Search Bar */
+/* ✅ Search Bar */
 .search-container {
     flex-grow: 1;
     text-align: center;
@@ -91,17 +93,17 @@ body {
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
 }
 
-/* Movie Grid */
+/* ✅ Movie Grid */
 .grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
-    padding: 80px 20px 60px; /* Adjusted padding for bottom nav */
+    padding: 80px 20px 20px;
     max-width: 900px;
     margin: auto;
 }
 
-/* Movie Item */
+/* ✅ Movie Item */
 .movie {
     position: relative;
     cursor: pointer;
@@ -118,7 +120,7 @@ body {
     object-fit: cover;
 }
 
-/* Movie Overlay */
+/* ✅ Movie Overlay */
 .movie .overlay {
     position: absolute;
     bottom: 0;
@@ -136,14 +138,14 @@ body {
     opacity: 1;
 }
 
-/* Loading & Error */
+/* ✅ Loading & Error */
 .loading, .error {
     font-size: 18px;
     margin-top: 20px;
     color: #ff5757;
 }
 
-/* Modal */
+/* ✅ Modal */
 .modal {
     display: none;
     position: fixed;
@@ -196,7 +198,6 @@ body {
     background: black;
     display: flex;
     justify-content: space-around;
-    align-items: center;
     padding: 10px 0;
     z-index: 1000;
 }
@@ -205,14 +206,14 @@ body {
     color: white;
     text-decoration: none;
     font-size: 16px;
-    padding: 10px;
+    padding: 10px 20px;
 }
 
 .bottom-nav a:hover {
     color: #ff5757;
 }
 
-/* Responsive Design */
+/* ✅ Responsive Design */
 @media (max-width: 600px) {
     .top-menu {
         flex-direction: column;
@@ -231,9 +232,5 @@ body {
     .grid {
         grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
         padding-top: 100px;
-    }
-
-    .bottom-nav a {
-        font-size: 14px;
     }
 }
