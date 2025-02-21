@@ -16,13 +16,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
 
     document.getElementById("search").addEventListener("input", debounceSearch);
-    window.addEventListener("hashchange", handleHashChange); // ✅ Detect hash changes
+    window.addEventListener("hashchange", handleHashChange);
 });
 
 // 📌 Handle category switching based on URL hash
 function handleHashChange() {
     const hash = window.location.hash.replace("#", ""); // Get category from URL
-    currentCategory = hash || 'movies'; // Default to movies if empty
+    currentCategory = hash || 'movies';
     currentQuery = '';
     currentPage = 1;
     fetchContent();
@@ -44,7 +44,7 @@ async function fetchContent(query = '', page = 1) {
         } else if (currentCategory === 'tv') {
             url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=${page}`;
         } else if (currentCategory === 'anime') {
-            url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&page=${page}`; // Anime Genre ID: 16
+            url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&page=${page}`;
         }
     }
 
@@ -85,6 +85,30 @@ function displayMovies(movies, clear = false) {
     });
 }
 
+// ✅ Open Movie Modal
+function showMovieInfo(movie) {
+    const modal = document.getElementById("movieModal");
+    document.getElementById("modalTitle").innerText = movie.title || movie.name;
+    document.getElementById("modalOverview").innerText = movie.overview;
+    document.getElementById("modalRelease").innerText = "Release Date: " + (movie.release_date || "N/A");
+    document.getElementById("modalRating").innerText = "Rating: " + (movie.vote_average || "N/A");
+
+    modal.style.display = "flex";
+}
+
+// ✅ Close Modal
+function closeModal() {
+    document.getElementById("movieModal").style.display = "none";
+}
+
+// ✅ Close when clicking outside the modal
+window.onclick = function(event) {
+    const modal = document.getElementById("movieModal");
+    if (event.target === modal) {
+        modal.style.display = "none";
+    }
+};
+
 // 🔎 Debounced Search
 function debounceSearch() {
     clearTimeout(timeout);
@@ -97,11 +121,3 @@ function debounceSearch() {
         }
     }, 500);
 }
-
-// 🔄 Infinite Scroll
-window.addEventListener('scroll', () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-        currentPage++;
-        fetchContent(currentQuery, currentPage);
-    }
-});
