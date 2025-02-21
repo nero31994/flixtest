@@ -6,17 +6,17 @@ let currentQuery = '';
 let isFetching = false;
 let timeout = null;
 
-// ✅ Intro Animation
+// ✅ Ensure movies auto-load after the intro animation
 document.addEventListener("DOMContentLoaded", function () {
     const introScreen = document.getElementById("intro-screen");
 
     setTimeout(() => {
         introScreen.classList.add("hidden");
-        fetchMovies(); // Load movies after intro animation
+        fetchMovies(); // ✅ Auto-load popular movies
     }, 3000);
 });
 
-// ✅ Fetch movies with error handling
+// ✅ Fetch movies with proper error handling
 async function fetchMovies(query = '', page = 1) {
     if (isFetching) return;
     isFetching = true;
@@ -49,7 +49,7 @@ async function fetchMovies(query = '', page = 1) {
     }
 }
 
-// Display movies
+// ✅ Display movies on the grid
 function displayMovies(movies, clear = false) {
     const moviesDiv = document.getElementById("movies");
     if (clear) moviesDiv.innerHTML = ""; 
@@ -66,3 +66,11 @@ function displayMovies(movies, clear = false) {
         moviesDiv.appendChild(movieEl);
     });
 }
+
+// ✅ Infinite Scroll for loading more movies
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        currentPage++;
+        fetchMovies(currentQuery, currentPage);
+    }
+});
