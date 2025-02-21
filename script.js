@@ -6,17 +6,17 @@ let currentQuery = '';
 let isFetching = false;
 let timeout = null;
 
-// ✅ Ensure movies auto-load after the intro animation
+// ✅ Ensure movies auto-load after intro animation
 document.addEventListener("DOMContentLoaded", function () {
     const introScreen = document.getElementById("intro-screen");
 
     setTimeout(() => {
         introScreen.classList.add("hidden");
-        fetchMovies(); // ✅ Auto-load popular movies
+        fetchMovies(); // ✅ Auto-load movies
     }, 3000);
 });
 
-// ✅ Fetch movies with proper error handling
+// ✅ Fetch movies with error handling
 async function fetchMovies(query = '', page = 1) {
     if (isFetching) return;
     isFetching = true;
@@ -28,16 +28,10 @@ async function fetchMovies(query = '', page = 1) {
 
     try {
         const response = await fetch(url);
-
-        if (!response.ok) {
-            throw new Error(`HTTP Error! Status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
         const data = await response.json();
-
-        if (!data.results || data.results.length === 0) {
-            throw new Error("No movies found.");
-        }
+        if (!data.results || data.results.length === 0) throw new Error("No movies found.");
 
         displayMovies(data.results, page === 1);
     } catch (error) {
@@ -49,7 +43,7 @@ async function fetchMovies(query = '', page = 1) {
     }
 }
 
-// ✅ Display movies on the grid
+// ✅ Display movies and attach click event to open modal
 function displayMovies(movies, clear = false) {
     const moviesDiv = document.getElementById("movies");
     if (clear) moviesDiv.innerHTML = ""; 
@@ -63,8 +57,30 @@ function displayMovies(movies, clear = false) {
             <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title || movie.name}" loading="lazy">
             <div class="overlay">${movie.title || movie.name}</div>
         `;
+        movieEl.onclick = () => showMovieInfo(movie); // ✅ Click event to open modal
         moviesDiv.appendChild(movieEl);
     });
+}
+
+// ✅ Show movie info in modal
+function showMovieInfo(movie) {
+    const modal = document.getElementById("movieModal");
+    document.getElementById("modalTitle").innerText = movie.title || movie.name;
+    document.getElementById("modalOverview").innerText = movie.overview || "No description available.";
+    document.getElementById("modalRelease").innerText = `Release Date: ${movie.release_date || "N/A"}`;
+    document.getElementById("modalRating").innerText = `Rating: ${movie.vote_average}/10`;
+
+    document.getElementById("watchNow").onclick = () => {
+        window.open(`https://www.themoviedb.org/movie/${movie.id}`, "_blank"); // Open TMDB movie page
+        modal.style.display = "none";
+    };
+
+    modal.style.display = "block";
+}
+
+// ✅ Close modal
+function closeModal() {
+    document.getElementById("movieModal").style.display = "none";
 }
 
 // ✅ Infinite Scroll for loading more movies
