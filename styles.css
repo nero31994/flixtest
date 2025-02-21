@@ -1,236 +1,70 @@
-/* ✅ General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background: #121212;
-    color: white;
-    text-align: center;
-    margin: 0;
-    padding: 0;
-    overflow-x: hidden;
-}
+/* ✅ General Styles */ body { font-family: Arial, sans-serif; background: #121212; color: white; text-align: center; margin: 0; padding: 0; overflow-x: hidden; }
 
-/* ✅ Full-Screen Intro Screen */
-.intro-screen {
-    position: fixed;
-    width: 100vw;
-    height: 100vh;
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    top: 0;
-    left: 0;
-}
+/* ✅ Full-Screen Intro Screen */ .intro-screen { position: fixed; width: 100vw; height: 100vh; background: black; display: flex; align-items: center; justify-content: center; z-index: 2000; top: 0; left: 0; }
 
-.intro-screen img {
-    width: 100vw;  /* Fill the full width */
-    height: 100vh; /* Fill the full height */
-    object-fit: cover; /* Ensure full coverage */
-}
+.intro-screen img { width: 100vw; height: 100vh; object-fit: cover; }
 
-/* ✅ Smooth Fade Out */
-.hidden {
-    animation: fadeOut 1s ease forwards;
-}
+/* ✅ Smooth Fade Out */ .hidden { animation: fadeOut 1s ease forwards; }
 
-@keyframes fadeOut {
-    from {
-        opacity: 1;
-        visibility: visible;
-    }
-    to {
-        opacity: 0;
-        visibility: hidden;
-    }
-}
+@keyframes fadeOut { from { opacity: 1; visibility: visible; } to { opacity: 0; visibility: hidden; } }
 
-/* ✅ Background Overlay */
-.background-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("https://i.ibb.co/X3Qv7dn/giphy.gif") center/cover no-repeat;
-    filter: blur(8px);
-    z-index: -1;
-}
+/* ✅ Background Overlay */ .background-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: url("https://i.ibb.co/X3Qv7dn/giphy.gif") center/cover no-repeat; filter: blur(8px); z-index: -1; }
 
-/* ✅ Sticky Header */
-.top-menu {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    z-index: 1000;
-}
+/* ✅ Sticky Header */ .top-menu { position: fixed; top: 0; width: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(10px); display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; z-index: 1000; }
 
-/* ✅ Logo */
-.logo {
-    height: 40px;
-}
+/* ✅ Logo */ .logo { height: 40px; }
 
-/* ✅ Search Bar */
+/* ✅ Search Bar */ .search-container { flex-grow: 1; text-align: center; }
+
+#search { width: 90%; max-width: 400px; padding: 10px; font-size: 16px; border-radius: 20px; border: none; outline: none; box-shadow: 0 0 8px rgba(255, 255, 255, 0.2); }
+
+/* ✅ Movie Grid */ .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; padding: 80px 20px 20px; max-width: 900px; margin: auto; }
+
+/* ✅ Movie Item */ .movie { position: relative; cursor: pointer; transition: transform 0.3s ease-in-out; }
+
+.movie:hover { transform: scale(1.05); }
+
+.movie img { width: 100%; border-radius: 8px; object-fit: cover; }
+
+/* ✅ Movie Overlay */ .movie .overlay { position: absolute; bottom: 0; left: 0; right: 0; background: rgba(0, 0, 0, 0.7); color: white; padding: 6px; font-size: 12px; opacity: 0; transition: opacity 0.3s ease-in-out; }
+
+.movie:hover .overlay { opacity: 1; }
+
+/* ✅ Loading & Error */ .loading, .error { font-size: 18px; margin-top: 20px; color: #ff5757; }
+
+/* ✅ Modal */ .modal { display: none; position: fixed; z-index: 2000; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 500px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); padding: 20px; border-radius: 10px; color: white; box-shadow: 0 0 10px rgba(255, 255, 255, 0.2); text-align: center; }
+
+.modal-content { text-align: center; }
+
+.close { position: absolute; top: 10px; right: 15px; font-size: 24px; cursor: pointer; }
+
+#watchNow { background: #ff5757; color: white; border: none; padding: 10px 20px; margin-top: 10px; border-radius: 5px; cursor: pointer; transition: background 0.3s; }
+
+#watchNow:hover { background: #ff0000; }
+
+/* ✅ Bottom Navigation Bar */ .bottom-nav { position: fixed; bottom: 0; width: 100%; background: black; display: flex; justify-content: space-around; padding: 10px 0; z-index: 1000; }
+
+.bottom-nav a { color: white; text-decoration: none; font-size: 16px; padding: 10px 20px; }
+
+.bottom-nav a:hover { color: #ff5757; }
+
+/* ✅ Active Tab */ .bottom-nav a.active { color: #ff5757; font-weight: bold; }
+
+/* ✅ Responsive Design */ @media (max-width: 600px) { .top-menu { flex-direction: column; padding: 10px; }
+
 .search-container {
-    flex-grow: 1;
-    text-align: center;
+    width: 100%;
+    margin-top: 10px;
 }
 
 #search {
-    width: 90%;
-    max-width: 400px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    width: 100%;
 }
 
-/* ✅ Movie Grid */
 .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    gap: 10px;
-    padding: 80px 20px 20px;
-    max-width: 900px;
-    margin: auto;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    padding-top: 100px;
 }
 
-/* ✅ Movie Item */
-.movie {
-    position: relative;
-    cursor: pointer;
-    transition: transform 0.3s ease-in-out;
 }
 
-.movie:hover {
-    transform: scale(1.05);
-}
-
-.movie img {
-    width: 100%;
-    border-radius: 8px;
-    object-fit: cover;
-}
-
-/* ✅ Movie Overlay */
-.movie .overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 6px;
-    font-size: 12px;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-.movie:hover .overlay {
-    opacity: 1;
-}
-
-/* ✅ Loading & Error */
-.loading, .error {
-    font-size: 18px;
-    margin-top: 20px;
-    color: #ff5757;
-}
-
-/* ✅ Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 500px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    padding: 20px;
-    border-radius: 10px;
-    color: white;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
-.modal-content {
-    text-align: center;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-#watchNow {
-    background: #ff5757;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-#watchNow:hover {
-    background: #ff0000;
-}
-
-/* ✅ Bottom Navigation Bar */
-.bottom-nav {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: black;
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    z-index: 1000;
-}
-
-.bottom-nav a {
-    color: white;
-    text-decoration: none;
-    font-size: 16px;
-    padding: 10px 20px;
-}
-
-.bottom-nav a:hover {
-    color: #ff5757;
-}
-
-/* ✅ Responsive Design */
-@media (max-width: 600px) {
-    .top-menu {
-        flex-direction: column;
-        padding: 10px;
-    }
-
-    .search-container {
-        width: 100%;
-        margin-top: 10px;
-    }
-
-    #search {
-        width: 100%;
-    }
-
-    .grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-        padding-top: 100px;
-    }
-}
