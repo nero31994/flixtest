@@ -16,13 +16,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }, 3000);
 
     document.getElementById("search").addEventListener("input", debounceSearch);
-    window.addEventListener("hashchange", handleHashChange);
+    window.addEventListener("hashchange", handleHashChange); // ✅ Detect hash changes
+
+    // Ensure "Click to Watch" redirects correctly
+    document.getElementById("watchNow").addEventListener("click", function () {
+        const proxyUrl = this.dataset.url;
+        if (proxyUrl) {
+            window.location.href = proxyUrl;
+        } else {
+            alert("No movie URL found!");
+        }
+    });
 });
 
 // 📌 Handle category switching based on URL hash
 function handleHashChange() {
     const hash = window.location.hash.replace("#", ""); // Get category from URL
-    currentCategory = hash || 'movies';
+    currentCategory = hash || 'movies'; // Default to movies if empty
     currentQuery = '';
     currentPage = 1;
     fetchContent();
@@ -44,7 +54,7 @@ async function fetchContent(query = '', page = 1) {
         } else if (currentCategory === 'tv') {
             url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=${page}`;
         } else if (currentCategory === 'anime') {
-            url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&page=${page}`;
+            url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&page=${page}`; // Anime Genre ID: 16
         }
     }
 
@@ -85,29 +95,31 @@ function displayMovies(movies, clear = false) {
     });
 }
 
-// ✅ Open Movie Modal
+// 🆕 Show Movie Info and Fix Proxy Redirection
 function showMovieInfo(movie) {
-    const modal = document.getElementById("movieModal");
-    document.getElementById("modalTitle").innerText = movie.title || movie.name;
-    document.getElementById("modalOverview").innerText = movie.overview;
-    document.getElementById("modalRelease").innerText = "Release Date: " + (movie.release_date || "N/A");
-    document.getElementById("modalRating").innerText = "Rating: " + (movie.vote_average || "N/A");
+    const title = movie.title || movie.name;
+    const overview = movie.overview || "No description available.";
+    const releaseDate = movie.release_date || movie.first_air_date || "Unknown";
+    const rating = movie.vote_average || "N/A";
 
-    modal.style.display = "flex";
+    // Use movie ID to create a correct proxy URL
+    const watchUrl = `${PROXY_URL}${movie.id}`;
+
+    console.log("Generated Proxy URL:", watchUrl); // Debugging
+
+    // Update modal content
+    document.getElementById("modalTitle").textContent = title;
+    document.getElementById("modalOverview").textContent = overview;
+    document.getElementById("modalRelease").textContent = "Release Date: " + releaseDate;
+    document.getElementById("modalRating").textContent = "Rating: " + rating;
+
+    // Store the watch URL in the button for redirection
+    const watchNowButton = document.getElementById("watchNow");
+    watchNowButton.dataset.url = watchUrl;
+
+    // Show the modal
+    document.getElementById("movieModal").style.display = "flex";
 }
-
-// ✅ Close Modal
-function closeModal() {
-    document.getElementById("movieModal").style.display = "none";
-}
-
-// ✅ Close when clicking outside the modal
-window.onclick = function(event) {
-    const modal = document.getElementById("movieModal");
-    if (event.target === modal) {
-        modal.style.display = "none";
-    }
-};
 
 // 🔎 Debounced Search
 function debounceSearch() {
@@ -120,4 +132,17 @@ function debounceSearch() {
             fetchContent(currentQuery, currentPage);
         }
     }, 500);
+}
+
+// 🔄 Infinite Scroll
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        currentPage++;
+        fetchContent(currentQuery, currentPage);
+    }
+});
+
+// ❌ Close Modal
+function closeModal() {
+    document.getElementById("movieModal").style.display = "none";
 }
