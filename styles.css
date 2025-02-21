@@ -180,29 +180,6 @@ body {
     background: #ff0000;
 }
 
-/* Episode List */
-.episode-list {
-    margin-top: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: center;
-}
-
-.episode-btn {
-    background: #444;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.episode-btn:hover {
-    background: #ff5757;
-}
-
 /* Bottom Navigation Bar */
 .bottom-nav {
     position: fixed;
