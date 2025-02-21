@@ -14,10 +14,10 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         introScreen.classList.add("hidden");
         fetchMovies(); // Load movies after intro animation
-    }, 3000); // 3 seconds before fading out
+    }, 3000);
 });
 
-// Fetch movies or TV shows
+// Fetch Movies
 async function fetchMovies(query = '', page = 1) {
     if (isFetching) return;
     isFetching = true;
@@ -30,88 +30,11 @@ async function fetchMovies(query = '', page = 1) {
     try {
         const res = await fetch(url);
         const data = await res.json();
-        document.getElementById("loading").style.display = "none";
-
-        if (!data.results || data.results.length === 0) {
-            document.getElementById("error").innerText = "No results found!";
-            return;
-        }
-
-        document.getElementById("error").innerText = "";
         displayMovies(data.results, page === 1);
-    } catch (err) {
+    } catch {
         document.getElementById("error").innerText = "Error fetching data!";
-        document.getElementById("loading").style.display = "none";
     } finally {
         isFetching = false;
+        document.getElementById("loading").style.display = "none";
     }
 }
-
-// Display movies sorted by newest first
-function displayMovies(movies, clear = false) {
-    const moviesDiv = document.getElementById("movies");
-
-    if (clear) moviesDiv.innerHTML = ""; // Clear previous results when searching
-
-    // 🔥 Sort movies by release date (newest first)
-    movies.sort((a, b) => {
-        const dateA = new Date(a.release_date || a.first_air_date || "1900-01-01");
-        const dateB = new Date(b.release_date || b.first_air_date || "1900-01-01");
-        return dateB - dateA; // Sort descending (new to old)
-    });
-
-    movies.forEach(movie => {
-        if (!movie.poster_path) return;
-
-        const movieEl = document.createElement("div");
-        movieEl.classList.add("movie");
-        movieEl.innerHTML = `
-            <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title || movie.name}" loading="lazy">
-            <div class="overlay">${movie.title || movie.name}</div>
-        `;
-        movieEl.onclick = () => showMovieInfo(movie);
-        moviesDiv.appendChild(movieEl);
-    });
-}
-
-// Show movie info popup
-function showMovieInfo(movie) {
-    const modal = document.getElementById("movieModal");
-    document.getElementById("modalTitle").innerText = movie.title || movie.name;
-    document.getElementById("modalOverview").innerText = movie.overview || "No description available.";
-    document.getElementById("modalRelease").innerText = `Release Date: ${movie.release_date || "N/A"}`;
-    document.getElementById("modalRating").innerText = `Rating: ${movie.vote_average}/10`;
-
-    document.getElementById("watchNow").onclick = () => {
-        window.open(`${PROXY_URL}${movie.id}`, "_blank");
-        modal.style.display = "none";
-    };
-
-    modal.style.display = "block";
-}
-
-// Close movie info popup
-function closeModal() {
-    document.getElementById("movieModal").style.display = "none";
-}
-
-// Search function with debounce
-function debounceSearch() {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-        const query = document.getElementById("search").value.trim();
-        if (query.length > 2) {
-            currentQuery = query;  // Update global query
-            currentPage = 1;  // Reset pagination
-            fetchMovies(currentQuery, currentPage);
-        }
-    }, 300);
-}
-
-// Infinite Scroll
-window.addEventListener('scroll', () => {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
-        currentPage++;
-        fetchMovies(currentQuery, currentPage);
-    }
-});
