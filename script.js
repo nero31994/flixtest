@@ -7,6 +7,16 @@ let currentQuery = '';
 let isFetching = false;
 let timeout = null;
 
+// 🎬 Intro GIF Animation
+document.addEventListener("DOMContentLoaded", function () {
+    const introScreen = document.getElementById("intro-screen");
+
+    setTimeout(() => {
+        introScreen.classList.add("hidden");
+        fetchMovies(); // Load movies after intro animation
+    }, 3000); // 3 seconds before fading out
+});
+
 // Fetch movies or TV shows
 async function fetchMovies(query = '', page = 1) {
     if (isFetching) return;
@@ -105,6 +115,3 @@ window.addEventListener('scroll', () => {
         fetchMovies(currentQuery, currentPage);
     }
 });
-
-// Load initial movies
-fetchMovies();
