@@ -95,8 +95,8 @@ function displayMovies(movies, clear = false) {
     });
 }
 
-// 🆕 Show Movie Info and Fix Proxy Redirection
-function showMovieInfo(movie) {
+// 🆕 Show Movie Info and Load Episodes for TV Shows
+async function showMovieInfo(movie) {
     const title = movie.title || movie.name;
     const overview = movie.overview || "No description available.";
     const releaseDate = movie.release_date || movie.first_air_date || "Unknown";
@@ -117,8 +117,45 @@ function showMovieInfo(movie) {
     const watchNowButton = document.getElementById("watchNow");
     watchNowButton.dataset.url = watchUrl;
 
+    // If it's a TV show, load episodes
+    if (movie.first_air_date) {
+        loadEpisodes(movie.id);
+    } else {
+        document.getElementById("episode-list").innerHTML = ""; // Clear episodes if it's a movie
+    }
+
     // Show the modal
     document.getElementById("movieModal").style.display = "flex";
+}
+
+// 📺 Load Episodes for a TV Show
+async function loadEpisodes(tvShowId) {
+    const EPISODE_URL = `https://api.themoviedb.org/3/tv/${tvShowId}/season/1?api_key=${API_KEY}`;
+    const episodeList = document.getElementById("episode-list");
+    episodeList.innerHTML = "Loading episodes..."; // Temporary text
+
+    try {
+        const response = await fetch(EPISODE_URL);
+        if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+
+        const data = await response.json();
+        episodeList.innerHTML = ""; // Clear previous episodes
+
+        if (!data.episodes || data.episodes.length === 0) {
+            episodeList.innerHTML = "<li>No episodes available</li>";
+            return;
+        }
+
+        data.episodes.forEach(ep => {
+            let li = document.createElement("li");
+            li.textContent = `Episode ${ep.episode_number}: ${ep.name}`;
+            li.onclick = () => window.location.href = `${PROXY_URL}${tvShowId}&episode=${ep.episode_number}`;
+            episodeList.appendChild(li);
+        });
+    } catch (error) {
+        console.error("Error fetching episodes:", error);
+        episodeList.innerHTML = "<li>Failed to load episodes</li>";
+    }
 }
 
 // 🔎 Debounced Search
@@ -145,4 +182,5 @@ window.addEventListener('scroll', () => {
 // ❌ Close Modal
 function closeModal() {
     document.getElementById("movieModal").style.display = "none";
+    document.getElementById("episode-list").innerHTML = ""; // Clear episodes on close
 }
