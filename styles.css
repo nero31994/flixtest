@@ -2,7 +2,7 @@
 
 /* Intro Screen */ .intro-screen { position: fixed; width: 100%; height: 100vh; background: black; display: flex; align-items: center; justify-content: center; z-index: 2000; }
 
-.intro-screen img { max-width: 400px; }
+.intro-screen img { max-width: 400px; max-height: 80vh; }
 
 .hidden { animation: fadeOut 1s ease forwards; }
 
@@ -56,6 +56,11 @@
 .grid {
     grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
     padding-top: 100px;
+}
+
+.intro-screen img {
+    max-width: 300px;
+    max-height: 60vh;
 }
 
 }
