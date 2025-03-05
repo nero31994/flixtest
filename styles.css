@@ -103,6 +103,11 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
+/* Remove Movie Titles */
+.movie-title {
+    display: none !important;
+}
+
 .movie:hover {
     transform: scale(1.05);
 }
