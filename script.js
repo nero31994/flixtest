@@ -1,47 +1,148 @@
-const API_URL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=488eb36776275b8ae18600751059fb49&page=";
-let currentPage = 1;
+const API_KEY = '488eb36776275b8ae18600751059fb49';
+const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+const PROXY_URL = 'https://officialflix.vercel.app/api/proxy?id=';
 
-async function loadMovies() {
+let currentPage = 1;
+let currentQuery = '';
+let isFetching = false;
+let timeout = null;
+let currentCategory = 'movies'; // Default category
+
+// 🎬 Auto-load movies based on URL
+document.addEventListener("DOMContentLoaded", function () {
+    setTimeout(() => {
+        document.getElementById("intro-screen").classList.add("hidden");
+        handleHashChange(); // ✅ Load category from URL
+    }, 3000);
+
+    document.getElementById("search").addEventListener("input", debounceSearch);
+    window.addEventListener("hashchange", handleHashChange); // ✅ Detect hash changes
+
+    // Ensure "Click to Watch" redirects correctly
+    document.getElementById("watchNow").addEventListener("click", function () {
+        const proxyUrl = this.dataset.url;
+        if (proxyUrl) {
+            window.location.href = proxyUrl;
+        } else {
+            alert("No movie URL found!");
+        }
+    });
+});
+
+// 📌 Handle category switching based on URL hash
+function handleHashChange() {
+    const hash = window.location.hash.replace("#", ""); // Get category from URL
+    currentCategory = hash || 'movies'; // Default to movies if empty
+    currentQuery = '';
+    currentPage = 1;
+    fetchContent();
+}
+
+// 📡 Fetch movies, TV shows, or anime
+async function fetchContent(query = '', page = 1) {
+    if (isFetching) return;
+    isFetching = true;
     document.getElementById("loading").style.display = "block";
+    document.getElementById("error").innerText = "";
+
+    let url;
+    if (query) {
+        url = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`;
+    } else {
+        if (currentCategory === 'movies') {
+            url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`;
+        } else if (currentCategory === 'tv') {
+            url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=${page}`;
+        } else if (currentCategory === 'anime') {
+            url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&page=${page}`; // Anime Genre ID: 16
+        }
+    }
+
     try {
-        const response = await fetch(API_URL + currentPage);
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
+
         const data = await response.json();
-        displayMovies(data.results);
+        if (!data.results || data.results.length === 0) throw new Error("No content found.");
+
+        displayMovies(data.results, page === 1);
     } catch (error) {
-        document.getElementById("error").textContent = "Failed to load movies.";
+        console.error("Error fetching content:", error);
+        document.getElementById("error").innerText = "❌ " + error.message;
     } finally {
+        isFetching = false;
         document.getElementById("loading").style.display = "none";
     }
 }
 
-function displayMovies(movies) {
+// 🎥 Display content
+function displayMovies(movies, clear = false) {
     const moviesDiv = document.getElementById("movies");
+    if (clear) moviesDiv.innerHTML = ""; 
+
     movies.forEach(movie => {
-        const movieElement = document.createElement("div");
-        movieElement.classList.add("movie");
-        movieElement.innerHTML = `
-            <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+        if (!movie.poster_path) return;
+
+        const title = movie.title || movie.name;
+        const movieEl = document.createElement("div");
+        movieEl.classList.add("movie");
+        movieEl.innerHTML = `
+            <img src="${IMG_URL}${movie.poster_path}" alt="${title}" loading="lazy">
+            <div class="overlay">${title}</div>
         `;
-        movieElement.onclick = () => showMovieInfo(movie);
-        moviesDiv.appendChild(movieElement);
+        movieEl.onclick = () => showMovieInfo(movie);
+        moviesDiv.appendChild(movieEl);
     });
 }
 
+// 🆕 Show Movie Info and Fix Proxy Redirection
 function showMovieInfo(movie) {
-    document.getElementById("modalTitle").textContent = movie.title;
-    document.getElementById("modalOverview").textContent = movie.overview;
-    document.getElementById("modalRelease").textContent = "Release Date: " + movie.release_date;
-    document.getElementById("modalRating").textContent = "Rating: " + movie.vote_average;
-    document.getElementById("watchNow").onclick = () => {
-        const source = document.getElementById("streamingSource").value;
-        window.location.href = `https://officialflix.vercel.app/api/proxy?id=${movie.id}&source=${source}`;
-    };
+    const title = movie.title || movie.name;
+    const overview = movie.overview || "No description available.";
+    const releaseDate = movie.release_date || movie.first_air_date || "Unknown";
+    const rating = movie.vote_average || "N/A";
+
+    // Use movie ID to create a correct proxy URL
+    const watchUrl = `${PROXY_URL}${movie.id}`;
+
+    console.log("Generated Proxy URL:", watchUrl); // Debugging
+
+    // Update modal content
+    document.getElementById("modalTitle").textContent = title;
+    document.getElementById("modalOverview").textContent = overview;
+    document.getElementById("modalRelease").textContent = "Release Date: " + releaseDate;
+    document.getElementById("modalRating").textContent = "Rating: " + rating;
+
+    // Store the watch URL in the button for redirection
+    const watchNowButton = document.getElementById("watchNow");
+    watchNowButton.dataset.url = watchUrl;
+
+    // Show the modal
     document.getElementById("movieModal").style.display = "flex";
 }
 
-document.getElementById("loadMore").addEventListener("click", () => {
-    currentPage++;
-    loadMovies();
+// 🔎 Debounced Search
+function debounceSearch() {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+        const query = document.getElementById("search").value.trim();
+        if (query !== currentQuery) {
+            currentQuery = query;
+            currentPage = 1;
+            fetchContent(currentQuery, currentPage);
+        }
+    }, 500);
+}
+
+// 🔄 Infinite Scroll
+window.addEventListener('scroll', () => {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        currentPage++;
+        fetchContent(currentQuery, currentPage);
+    }
 });
 
-loadMovies();
+// ❌ Close Modal
+function closeModal() {
+    document.getElementById("movieModal").style.display = "none";
+}
