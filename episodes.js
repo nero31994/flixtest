@@ -1,22 +1,49 @@
 const PROXY_URL = 'https://officialflix.vercel.app/api/proxy?id=';
 
 // 📌 Function to fetch and display episodes
-async function fetchEpisodes(showId, season = 1) {
-    const url = `https://api.themoviedb.org/3/tv/${showId}/season/${season}?api_key=488eb36776275b8ae18600751059fb49`;
-
+async function fetchEpisodes(showId) {
     try {
+        const seasonData = await fetchSeasons(showId);
+        if (!seasonData || seasonData.length === 0) {
+            document.getElementById("episodeList").innerHTML = `<p>⚠ No episodes found.</p>`;
+            return;
+        }
+
+        // Get the first season if available (default to season 1)
+        const firstSeason = seasonData.find(s => s.season_number > 0) || seasonData[0];
+        console.log("Fetching episodes for season:", firstSeason.season_number); // Debugging
+
+        const url = `https://api.themoviedb.org/3/tv/${showId}/season/${firstSeason.season_number}?api_key=488eb36776275b8ae18600751059fb49`;
         const response = await fetch(url);
         if (!response.ok) throw new Error("Failed to load episodes.");
 
         const data = await response.json();
+        console.log("Fetched episodes:", data); // Debugging
+
         if (data.episodes && data.episodes.length > 0) {
-            displayEpisodes(data.episodes, showId, season);
+            displayEpisodes(data.episodes, showId, firstSeason.season_number);
         } else {
             document.getElementById("episodeList").innerHTML = `<p>⚠ No episodes available.</p>`;
         }
     } catch (error) {
         console.error("Error fetching episodes:", error);
         document.getElementById("episodeList").innerHTML = `<p>❌ Error loading episodes.</p>`;
+    }
+}
+
+// 📌 Function to fetch all available seasons for a TV show
+async function fetchSeasons(showId) {
+    const url = `https://api.themoviedb.org/3/tv/${showId}?api_key=488eb36776275b8ae18600751059fb49`;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error("Failed to fetch seasons.");
+        const data = await response.json();
+
+        console.log("Seasons data:", data.seasons); // Debugging
+        return data.seasons || [];
+    } catch (error) {
+        console.error("Error fetching seasons:", error);
+        return [];
     }
 }
 
