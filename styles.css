@@ -9,91 +9,16 @@ body {
     overflow-x: hidden;
 }
 
-/* Intro Screen */
-.intro-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2000;
-    overflow: hidden;
-}
-
-.intro-screen img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* Hide elements */
-.hidden {
-    display: none !important;
-}
-
-/* Background Overlay */
-.background-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: url("https://i.ibb.co/X3Qv7dn/giphy.gif") center/cover no-repeat;
-    filter: blur(8px);
-    z-index: -1;
-}
-
-/* Sticky Header */
-.top-menu {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(10px);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    z-index: 1000;
-}
-
-/* Logo */
-.logo {
-    height: 40px;
-}
-
-/* Search Bar */
-.search-container {
-    flex-grow: 1;
-    text-align: center;
-}
-
-#search {
-    width: 90%;
-    max-width: 400px;
-    padding: 10px;
-    font-size: 16px;
-    border-radius: 20px;
-    border: none;
-    outline: none;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
-}
-
-/* Movie Grid */
+/* Improved Movie Grid */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
     padding: 80px 20px;
-    max-width: 900px;
+    max-width: 1200px;
     margin: auto;
 }
 
-/* Movie Item */
+/* Responsive Movie Cards */
 .movie {
     position: relative;
     cursor: pointer;
@@ -106,51 +31,56 @@ body {
 
 .movie img {
     width: 100%;
+    aspect-ratio: 2 / 3; /* Maintain 2:3 aspect ratio */
     border-radius: 8px;
     object-fit: cover;
 }
 
-/* Movie Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 500px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    padding: 20px;
-    border-radius: 10px;
-    color: white;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+/* Responsive Grid Adjustments */
+@media (max-width: 600px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-.modal-content {
+@media (min-width: 601px) and (max-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 1025px) {
+    .grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+/* Improved Search Bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+#search {
+    width: 90%;
+    max-width: 500px;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
     text-align: center;
 }
 
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-#watchNow {
-    background: #ff5757;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-#watchNow:hover {
-    background: #ff0000;
+/* Responsive Search Bar */
+@media (max-width: 600px) {
+    #search {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+    }
 }
