@@ -9,80 +9,174 @@ body {
     overflow-x: hidden;
 }
 
-/* Sticky Header - Smaller & Responsive */
+/* Intro Screen */
+.intro-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    overflow: hidden;
+}
+
+.intro-screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Hide elements */
+.hidden {
+    display: none !important;
+}
+
+/* Background Overlay */
+.background-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url("https://i.ibb.co/X3Qv7dn/giphy.gif") center/cover no-repeat;
+    filter: blur(8px);
+    z-index: -1;
+}
+
+/* Sticky Header */
 .top-menu {
     position: fixed;
     top: 0;
     width: 100%;
-    background: rgba(0, 0, 0, 0.8);
+    background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 15px; /* Reduced padding */
+    padding: 5px 10px; /* Reduced padding */
     z-index: 1000;
-    height: 50px; /* Reduced height */
 }
 
-/* Logo - Smaller */
+/* Logo */
 .logo {
     height: 30px; /* Smaller logo */
 }
 
-/* Search Bar - More Compact */
+/* Search Bar */
 .search-container {
     flex-grow: 1;
     text-align: center;
-    display: flex;
-    justify-content: center;
 }
 
 #search {
     width: 85%;
-    max-width: 350px; /* Smaller search bar */
-    padding: 8px; /* Reduced padding */
-    font-size: 14px; /* Smaller font */
+    max-width: 350px; /* Reduced max width */
+    padding: 8px;      /* Reduced padding */
+    font-size: 14px;   /* Smaller font */
     border-radius: 20px;
     border: none;
     outline: none;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.1);
     color: white;
     text-align: center;
 }
 
-/* Movie Grid - Adjusted for Header */
+/* Movie Grid */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 5px;
-    padding: 60px 10px; /* Reduced top padding to fit new header */
-    max-width: 1000px;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Smaller posters */
+    gap: 8px; /* Reduced gap */
+    padding: 70px 15px;
+    max-width: 800px; /* Adjusted width */
     margin: auto;
 }
 
-/* Movie Poster */
+/* Movie Item */
+.movie {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.movie:hover {
+    transform: scale(1.05);
+}
+
 .movie img {
     width: 100%;
-    aspect-ratio: 2 / 3;
+    height: auto;
     border-radius: 6px;
     object-fit: cover;
 }
 
-/* Adjustments for Small Screens */
+/* Movie Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+}
+
+.modal-content {
+    text-align: center;
+}
+
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+#watchNow {
+    background: #ff5757;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#watchNow:hover {
+    background: #ff0000;
+}
+
+/* Responsive Design */
 @media (max-width: 600px) {
     .top-menu {
-        padding: 6px 10px;
-        height: 45px;
+        flex-direction: column;
+        padding: 5px;
     }
-    .logo {
-        height: 25px;
+
+    .search-container {
+        width: 100%;
+        margin-top: 5px;
     }
+
     #search {
-        max-width: 250px;
-        padding: 6px;
-        font-size: 12px;
+        width: 100%;
     }
+
     .grid {
-        padding-top: 55px;
+        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); /* Adjust for smaller screens */
+        padding-top: 80px;
     }
 }
