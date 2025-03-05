@@ -1,6 +1,6 @@
 const API_KEY = '488eb36776275b8ae18600751059fb49';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-const PROXY_URL = 'https://neroflixofficial.pages.dev/api/async?id=';
+const PROXY_URL = 'https://neroflixofficial.pages.dev/api/proxy?id=';
 
 let currentPage = 1;
 let currentQuery = '';
