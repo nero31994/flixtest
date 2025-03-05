@@ -87,32 +87,21 @@ body {
     text-align: center;
 }
 
-/* Responsive Search Bar */
-@media (max-width: 600px) {
-    #search {
-        width: 100%;
-        font-size: 14px;
-        padding: 10px;
-    }
-}
-
-/* Improved Movie Grid */
+/* Movie Grid - Compact & Responsive */
 .grid {
     display: grid;
-    gap: 10px;
-    padding: 80px 20px;
-    max-width: 1200px;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Adjust to fit more items */
+    gap: 5px; /* Reduce space between items */
+    padding: 70px 10px;
+    max-width: 1000px;
     margin: auto;
 }
 
-/* Movie Poster (50% Smaller) */
+/* Movie Poster (50% Smaller, Compact Spacing) */
 .movie {
     position: relative;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
-    width: 50%; /* Reduce poster size by 50% */
-    max-width: 150px; /* Ensure they don't get too large */
-    margin: auto;
 }
 
 .movie:hover {
@@ -122,26 +111,26 @@ body {
 .movie img {
     width: 100%;
     aspect-ratio: 2 / 3; /* Maintain 2:3 aspect ratio */
-    border-radius: 8px;
+    border-radius: 6px;
     object-fit: cover;
 }
 
-/* Responsive Grid Adjustments */
+/* Adjust Grid for Different Screens */
 @media (max-width: 600px) {
     .grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr); /* 3 movies per row on small screens */
     }
 }
 
 @media (min-width: 601px) and (max-width: 1024px) {
     .grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(5, 1fr); /* 5 movies per row on tablets */
     }
 }
 
 @media (min-width: 1025px) {
     .grid {
-        grid-template-columns: repeat(6, 1fr);
+        grid-template-columns: repeat(6, 1fr); /* 6 movies per row on large screens */
     }
 }
 
