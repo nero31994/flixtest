@@ -1,4 +1,4 @@
-const API_URL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=YOUR_API_KEY&page=";
+const API_URL = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=488eb36776275b8ae18600751059fb49&page=";
 let currentPage = 1;
 
 async function loadMovies() {
