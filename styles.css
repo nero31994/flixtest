@@ -105,11 +105,14 @@ body {
     margin: auto;
 }
 
-/* Responsive Movie Cards */
+/* Movie Poster (50% Smaller) */
 .movie {
     position: relative;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
+    width: 50%; /* Reduce poster size by 50% */
+    max-width: 150px; /* Ensure they don't get too large */
+    margin: auto;
 }
 
 .movie:hover {
@@ -126,19 +129,19 @@ body {
 /* Responsive Grid Adjustments */
 @media (max-width: 600px) {
     .grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 @media (min-width: 601px) and (max-width: 1024px) {
     .grid {
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
 @media (min-width: 1025px) {
     .grid {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(6, 1fr);
     }
 }
 
@@ -185,4 +188,4 @@ body {
 
 #watchNow:hover {
     background: #ff0000;
-} 
+}
