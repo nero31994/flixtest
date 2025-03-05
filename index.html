@@ -19,8 +19,7 @@
     <header class="top-menu">
         <img src="https://i.ibb.co/jPG09vpp/93685c048f65a023413392ef61745925.png" alt="Logo" class="logo">
         <div class="search-container">
-            <input type="text" id="search" placeholder="Search movies..." onkeyup="debounceSearch()">
-            <span class="search-icon">🔍</span>
+            <input type="text" id="search" placeholder="Search movies or TV..." onkeyup="debounceSearch()">
         </div>
     </header>
 
@@ -36,17 +35,24 @@
             <p id="modalOverview"></p>
             <p id="modalRelease"></p>
             <p id="modalRating"></p>
-            <div id="trailerContainer"></div>
-            <select id="streamingSource">
-                <option value="vidsrc">VidSrc</option>
-                <option value="hdtoday">HDToday</option>
-            </select>
             <button id="watchNow">CLICK TO WATCH</button>
         </div>
     </div>
 
-    <button id="loadMore">Load More</button>
+    <!-- ✅ Episode List Section -->
+    <div id="episode-section" class="episode-section">
+        <h2>Episodes</h2>
+        <ul id="episode-list"></ul>
+    </div>
+
+    <!-- ✅ Bottom Navigation Bar -->
+    <div class="bottom-nav">
+        <a href="#movies">Movies</a>
+        <a href="#tv">TV Shows</a>
+        <a href="#anime">Anime</a>
+    </div>
 
     <script src="script.js"></script>
+    <script src="episodes.js"></script>
 </body>
 </html>
