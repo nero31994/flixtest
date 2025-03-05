@@ -57,13 +57,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 5px 10px; /* Reduced padding */
+    padding: 8px 15px; /* Adjusted padding */
     z-index: 1000;
 }
 
 /* Logo */
 .logo {
-    height: 30px; /* Smaller logo */
+    height: 28px; /* Adjusted smaller logo */
 }
 
 /* Search Bar */
@@ -73,14 +73,13 @@ body {
 }
 
 #search {
-    width: 85%;
-    max-width: 350px; /* Reduced max width */
-    padding: 8px;      /* Reduced padding */
-    font-size: 14px;   /* Smaller font */
+    width: 80%;
+    max-width: 320px; /* Adjusted smaller width */
+    padding: 8px;
+    font-size: 14px;
     border-radius: 20px;
     border: none;
     outline: none;
-    box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
     background: rgba(255, 255, 255, 0.1);
     color: white;
     text-align: center;
@@ -89,10 +88,10 @@ body {
 /* Movie Grid */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Smaller posters */
-    gap: 8px; /* Reduced gap */
-    padding: 70px 15px;
-    max-width: 800px; /* Adjusted width */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Optimized for responsiveness */
+    gap: 10px;
+    padding: 80px 15px;
+    max-width: 900px;
     margin: auto;
 }
 
@@ -101,11 +100,6 @@ body {
     position: relative;
     cursor: pointer;
     transition: transform 0.3s ease-in-out;
-}
-
-/* Remove Movie Titles */
-.movie-title {
-    display: none !important;
 }
 
 .movie:hover {
@@ -117,6 +111,11 @@ body {
     height: auto;
     border-radius: 6px;
     object-fit: cover;
+}
+
+/* Remove Movie Titles */
+.movie p {
+    display: none !important;
 }
 
 /* Movie Modal */
@@ -181,7 +180,7 @@ body {
     }
 
     .grid {
-        grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); /* Adjust for smaller screens */
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Adjusted for smaller screens */
         padding-top: 80px;
     }
 }
