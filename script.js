@@ -6,19 +6,16 @@ let currentPage = 1;
 let currentQuery = '';
 let isFetching = false;
 let timeout = null;
-let currentCategory = 'movies'; // Default category
 
-// 🎬 Auto-load movies based on URL
+// 🎬 Auto-load movies on page load
 document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         document.getElementById("intro-screen").classList.add("hidden");
-        handleHashChange(); // ✅ Load category from URL
+        fetchMovies(); // ✅ Load movies on startup
     }, 3000);
 
     document.getElementById("search").addEventListener("input", debounceSearch);
-    window.addEventListener("hashchange", handleHashChange); // ✅ Detect hash changes
 
-    // Ensure "Click to Watch" redirects correctly
     document.getElementById("watchNow").addEventListener("click", function () {
         const proxyUrl = this.dataset.url;
         if (proxyUrl) {
@@ -29,17 +26,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// 📌 Handle category switching based on URL hash
-function handleHashChange() {
-    const hash = window.location.hash.replace("#", ""); // Get category from URL
-    currentCategory = hash || 'movies'; // Default to movies if empty
-    currentQuery = '';
-    currentPage = 1;
-    fetchContent();
-}
-
-// 📡 Fetch movies, TV shows, or anime
-async function fetchContent(query = '', page = 1) {
+// 📡 Fetch only movies
+async function fetchMovies(query = '', page = 1) {
     if (isFetching) return;
     isFetching = true;
     document.getElementById("loading").style.display = "block";
@@ -47,15 +35,9 @@ async function fetchContent(query = '', page = 1) {
 
     let url;
     if (query) {
-        url = `https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`;
+        url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`;
     } else {
-        if (currentCategory === 'movies') {
-            url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`;
-        } else if (currentCategory === 'tv') {
-            url = `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=${page}`;
-        } else if (currentCategory === 'anime') {
-            url = `https://api.themoviedb.org/3/discover/tv?api_key=${API_KEY}&with_genres=16&page=${page}`; // Anime Genre ID: 16
-        }
+        url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`;
     }
 
     try {
@@ -63,11 +45,11 @@ async function fetchContent(query = '', page = 1) {
         if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
         const data = await response.json();
-        if (!data.results || data.results.length === 0) throw new Error("No content found.");
+        if (!data.results || data.results.length === 0) throw new Error("No movies found.");
 
         displayMovies(data.results, page === 1);
     } catch (error) {
-        console.error("Error fetching content:", error);
+        console.error("Error fetching movies:", error);
         document.getElementById("error").innerText = "❌ " + error.message;
     } finally {
         isFetching = false;
@@ -75,7 +57,7 @@ async function fetchContent(query = '', page = 1) {
     }
 }
 
-// 🎥 Display content
+// 🎥 Display movies
 function displayMovies(movies, clear = false) {
     const moviesDiv = document.getElementById("movies");
     if (clear) moviesDiv.innerHTML = ""; 
@@ -83,29 +65,26 @@ function displayMovies(movies, clear = false) {
     movies.forEach(movie => {
         if (!movie.poster_path) return;
 
-        const title = movie.title || movie.name;
+        const title = movie.title;
         const movieEl = document.createElement("div");
         movieEl.classList.add("movie");
         movieEl.innerHTML = `
             <img src="${IMG_URL}${movie.poster_path}" alt="${title}" loading="lazy">
-            <div class="overlay">${title}</div>
         `;
         movieEl.onclick = () => showMovieInfo(movie);
         moviesDiv.appendChild(movieEl);
     });
 }
 
-// 🆕 Show Movie Info and Fix Proxy Redirection
+// 🆕 Show Movie Info with Proxy Redirection
 function showMovieInfo(movie) {
-    const title = movie.title || movie.name;
+    const title = movie.title;
     const overview = movie.overview || "No description available.";
-    const releaseDate = movie.release_date || movie.first_air_date || "Unknown";
+    const releaseDate = movie.release_date || "Unknown";
     const rating = movie.vote_average || "N/A";
 
     // Use movie ID to create a correct proxy URL
     const watchUrl = `${PROXY_URL}${movie.id}`;
-
-    console.log("Generated Proxy URL:", watchUrl); // Debugging
 
     // Update modal content
     document.getElementById("modalTitle").textContent = title;
@@ -129,7 +108,7 @@ function debounceSearch() {
         if (query !== currentQuery) {
             currentQuery = query;
             currentPage = 1;
-            fetchContent(currentQuery, currentPage);
+            fetchMovies(currentQuery, currentPage);
         }
     }, 500);
 }
@@ -138,11 +117,11 @@ function debounceSearch() {
 window.addEventListener('scroll', () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
         currentPage++;
-        fetchContent(currentQuery, currentPage);
+        fetchMovies(currentQuery, currentPage);
     }
 });
 
 // ❌ Close Modal
 function closeModal() {
     document.getElementById("movieModal").style.display = "none";
-            }
+}
