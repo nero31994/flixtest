@@ -1,13 +1,12 @@
 const API_KEY = '488eb36776275b8ae18600751059fb49';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-const PROXY_URL = 'https://apiprox.vercel.app/api/proxy?id=';
+const PROXY_URL = 'https://officialflix.vercel.app/api/proxy?id=';
 
 let currentPage = 1;
 let currentQuery = '';
 let isFetching = false;
 let timeout = null;
 
-// 🎬 Auto-load movies on page load
 document.addEventListener("DOMContentLoaded", function () {
     setTimeout(() => {
         document.getElementById("intro-screen").classList.add("hidden");
@@ -17,28 +16,30 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("search").addEventListener("input", debounceSearch);
 });
 
-// 📡 Fetch only movies
+// 📡 Fetch Movies
 async function fetchMovies(query = '', page = 1) {
     if (isFetching) return;
-    isFetching = true;
+    isFetching = true; // ✅ Prevent multiple API calls
     document.getElementById("loading").style.display = "block";
     document.getElementById("error").innerText = "";
 
-    let url;
-    if (query) {
-        url = `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`;
-    } else {
-        url = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`;
-    }
+    let url = query
+        ? `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&page=${page}`
+        : `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`;
 
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error(`HTTP Error! Status: ${response.status}`);
 
         const data = await response.json();
-        if (!data.results || data.results.length === 0) throw new Error("No movies found.");
+        if (!data.results || data.results.length === 0) throw new Error("No more movies found.");
 
         displayMovies(data.results, page === 1);
+        
+        // ✅ Stop infinite scroll when reaching last page
+        if (data.total_pages <= page) {
+            window.removeEventListener("scroll", handleScroll);
+        }
     } catch (error) {
         console.error("Error fetching movies:", error);
         document.getElementById("error").innerText = "❌ " + error.message;
@@ -48,7 +49,7 @@ async function fetchMovies(query = '', page = 1) {
     }
 }
 
-// 🎥 Display movies
+// 🎥 Display Movies (No Popups, Direct Load)
 function displayMovies(movies, clear = false) {
     const moviesDiv = document.getElementById("movies");
     if (clear) moviesDiv.innerHTML = ""; 
@@ -61,23 +62,15 @@ function displayMovies(movies, clear = false) {
         movieEl.innerHTML = `
             <img src="${IMG_URL}${movie.poster_path}" alt="${movie.title}" loading="lazy">
         `;
-        movieEl.onclick = () => showMovieInfo(movie);
+
+        // ✅ Clicking a movie redirects to proxy link (No modal pop-up)
+        movieEl.onclick = () => window.location.href = `${PROXY_URL}${movie.id}`;
+
         moviesDiv.appendChild(movieEl);
     });
 }
 
-// 🎥 Redirect to Proxy Directly on Click
-function showMovieInfo(movie) {
-    if (!movie.id) return;
-    
-    // Generate the proxy URL
-    const watchUrl = `${PROXY_URL}${movie.id}`;
-    
-    // Redirect the user to the streaming page
-    window.location.href = watchUrl;
-}
-
-// 🔎 Debounced Search
+// 🔎 Debounced Search (Optimized)
 function debounceSearch() {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
@@ -89,3 +82,18 @@ function debounceSearch() {
         }
     }, 500);
 }
+
+// 🔄 Infinite Scroll (Fixed & Optimized)
+function handleScroll() {
+    if (isFetching) return;
+
+    const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const currentScroll = window.scrollY;
+
+    if (currentScroll >= scrollableHeight - 300) { // ✅ Trigger before bottom
+        currentPage++;
+        fetchMovies(currentQuery, currentPage);
+    }
+}
+
+window.addEventListener('scroll', handleScroll);
