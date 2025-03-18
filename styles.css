@@ -58,13 +58,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 15px; /* Adjusted padding */
+    padding: 8px 15px;
     z-index: 1000;
 }
 
 /* Logo */
 .logo {
-    height: 28px; /* Adjusted smaller logo */
+    height: 28px;
 }
 
 /* Search Bar */
@@ -75,7 +75,7 @@ body {
 
 #search {
     width: 80%;
-    max-width: 320px; /* Adjusted smaller width */
+    max-width: 320px;
     padding: 8px;
     font-size: 14px;
     border-radius: 20px;
@@ -89,7 +89,7 @@ body {
 /* Movie Grid */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Optimized for responsiveness */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
     padding: 80px 15px;
     max-width: 900px;
@@ -114,56 +114,6 @@ body {
     object-fit: cover;
 }
 
-/* Remove Movie Titles */
-.movie p {
-    display: none !important;
-}
-
-/* Movie Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 2000;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 500px;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-    padding: 20px;
-    border-radius: 10px;
-    color: white;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-}
-
-.modal-content {
-    text-align: center;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-#watchNow {
-    background: #ff5757;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    margin-top: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-#watchNow:hover {
-    background: #ff0000;
-}
-
 /* Responsive Design */
 @media (max-width: 600px) {
     .top-menu {
@@ -181,7 +131,7 @@ body {
     }
 
     .grid {
-        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); /* Adjusted for smaller screens */
+        grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
         padding-top: 80px;
     }
 }
